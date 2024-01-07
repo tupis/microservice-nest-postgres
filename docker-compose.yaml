@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: nest
+    hostname: nest-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin123
+      - APP_DB_USER=postgres
+      - APP_DB_PASS=admin
+    healthcheck:
+      test: ['CMD', 'pg_isready', '-q', '-d', 'postgres', '-U', 'root']
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    volumes:
+      - ./scripts:/docker-entrypoint-initdb.d/
+    ports:
+      - '5432:5432'
