@@ -21,15 +21,15 @@ export class UserService {
     newUser.password = createUserDto.password;
     newUser.gender = createUserDto.gender;
 
-    return this.userRepository.save(newUser);
+    return await this.userRepository.save(newUser);
   }
 
   async findAll(): Promise<Array<User>> {
-    return this.userRepository.find();
+    return await this.userRepository.find();
   }
 
   async findOne(id: number): Promise<User> {
-    return this.userRepository.findOne({ where: { id } });
+    return await this.userRepository.findOne({ where: { id } });
   }
 
   async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
@@ -42,7 +42,7 @@ export class UserService {
     updateUser.gender = updateUserDto.gender;
     updateUser.id = id;
 
-    const findUser = this.userRepository.findOne({ where: { id } });
+    const findUser = await this.userRepository.findOne({ where: { id } });
 
     if (!findUser) {
       throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
@@ -52,7 +52,7 @@ export class UserService {
   }
 
   async remove(id: number) {
-    const findUser = this.userRepository.findOne({ where: { id } });
+    const findUser = await this.userRepository.findOne({ where: { id } });
 
     if (!findUser) {
       throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
